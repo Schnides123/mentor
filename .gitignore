@@ -1,0 +1,14 @@
+dist/
+__pycache__/
+.coverage
+.idea/
+.tox/
+.env
+*.egg-info/
+*.py[cod]
+*$py.class
+.python-version
+poetry.lock
+*.db
+docker/volumes/
+dependencies/
