@@ -10,7 +10,12 @@ from langchain.vectorstores import milvus
 from lib.environment_variables import ENV
 
 default_ignores = [
-
+    "*.git*",
+    "docker/",
+    ".github/",
+    "tox.ini",
+    "*.db",
+    ".pyc"
 ]
 
 
@@ -30,10 +35,11 @@ def chunk_docs(docs):
 
 
 def get_ignore_patterns(ignore_path, additional_patterns=None):
-    if additional_patterns is None:
-        additional_patterns = default_ignores
+    patterns = default_ignores
+    if additional_patterns is not None:
+        patterns += additional_patterns
     gitignore_patterns = read_gitignore(ignore_path) if os.path.isfile(ignore_path) else []
-    return gitignore_patterns + additional_patterns
+    return gitignore_patterns + patterns
 
 
 def read_gitignore(gitignore_path):
@@ -51,8 +57,6 @@ def create_embeddings(docs):
             embeddings,
             connection_args={"host": ENV["MILVUS_HOST"], "port": ENV["MILVUS_PORT"]},
         )
-        docs = vector_db.similarity_search("query")
-        print(docs[0])
     except Exception as e:
         print(e)
         traceback.print_exc()
