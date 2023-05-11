@@ -3,6 +3,12 @@ name = "mentor"
 version = "0.1.0"
 description = "Create an LLM mentor for your codebase"
 authors = ["Alex Schneider <aschnides123@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "server" },
+    { include = "cmd" },
+    { include = "lib" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.11.3"
@@ -40,6 +46,7 @@ flask-restful = ">=0.3.9,<0.4.0"
 openai = "^0.27.6"
 tiktoken = "^0.4.0"
 gitpython = "^3.1.31"
+flask-cors = "^3.0.10"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"

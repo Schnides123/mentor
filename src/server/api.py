@@ -1,10 +1,6 @@
-from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Resource
 
 from lib.prompter import enriched_prompt
-
-app = Flask(__name__)
-api = Api(app)
 
 
 class ApiHandler(Resource):
