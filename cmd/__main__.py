@@ -1,6 +1,11 @@
 from cmd.command_line import command_line
-from src import load_environment_variables
+from lib.environment_variables import load_environment_variables
 
-if __name__ == "__main__":
+
+def run():
     load_environment_variables()
     command_line()
+
+
+if __name__ == "__main__":
+    run()
