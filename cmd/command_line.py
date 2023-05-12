@@ -1,4 +1,6 @@
 import argparse
+import subprocess
+from threading import Thread
 
 from lib.loaders import repo_loader, file_loader
 from lib.prompter import enriched_prompt
@@ -22,6 +24,8 @@ def command_line():
                              metavar="branch", default="master",
                              help="Specifies the branch to load for a repo")
 
+    server_parser = subp.add_parser("server", help="run mentor in server mode")
+
     # create a sub-parser for sending prompts
     prompt_parser = subp.add_parser("prompt", help="Send a prompt and print the response")
 
@@ -37,8 +41,10 @@ def command_line():
         if args.subparser_name == "load":
             load(args)
         if args.subparser_name == "prompt":
-            print(f"  >> {args.prompt}")
-            print(enriched_prompt(args.prompt, args.format or "markdown")["answer"])
+            prompt(args)
+        if args.subparser_name == "server":
+            server(args)
+
     else:
         # display help message when no arguments are specified
         parser.print_help()
@@ -55,3 +61,21 @@ def load(args):
         repo_loader.load(args.source, args.branch)
     if args.type == "file":
         file_loader.load(args.source)
+
+
+def prompt(args):
+    print(f"  >> {args.prompt}")
+    print(enriched_prompt(args.prompt, args.format or "markdown")["answer"])
+
+
+def server(args):
+    Thread(target=run_flask).start()
+    Thread(target=run_frontend).start()
+
+
+def run_flask():
+    subprocess.run("poetry run flask run", shell=True)
+
+
+def run_frontend():
+    subprocess.run("npm install && npm run start", shell=True, cwd="frontend")
