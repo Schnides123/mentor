@@ -4,6 +4,7 @@ __pycache__/
 .idea/
 .tox/
 .env
+frontend/.env
 *.egg-info/
 *.py[cod]
 *$py.class
